@@ -43,7 +43,7 @@ func _process(delta: float) -> void:
 		
 			if player_rect.intersects(obstacle_rect):
 				print("GAME OVER!")
-				get_tree().reload_current_scene()
+				get_node("../GameManager").game_over()
 		
 		
 	# Apply velocity
