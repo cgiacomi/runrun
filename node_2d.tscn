@@ -1,0 +1,40 @@
+[gd_scene format=3 uid="uid://bab52w1ykpix4"]
+
+[ext_resource type="Texture2D" uid="uid://b62doru7v21db" path="res://icon.svg" id="1_0e48y"]
+[ext_resource type="Script" uid="uid://265qmp2p6the" path="res://game_manager.gd" id="1_0hol4"]
+[ext_resource type="Script" uid="uid://bsci8cl848kga" path="res://sprite_2d.gd" id="2_epypp"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0e48y"]
+size = Vector2(1200, 100)
+
+[node name="Node2D" type="Node2D" unique_id=242383067]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=581394503]
+position = Vector2(2, 24)
+texture = ExtResource("1_0e48y")
+script = ExtResource("2_epypp")
+
+[node name="Ground" type="ColorRect" parent="." unique_id=361591940]
+custom_minimum_size = Vector2(1200, 100)
+offset_top = 500.0
+offset_right = 1200.0
+offset_bottom = 600.0
+color = Color(0, 0, 1, 1)
+
+[node name="Area2D" type="Area2D" parent="Ground" unique_id=55488853]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ground/Area2D" unique_id=1844959135]
+position = Vector2(600, 50)
+shape = SubResource("RectangleShape2D_0e48y")
+
+[node name="GameManager" type="Node" parent="." unique_id=1298961747]
+script = ExtResource("1_0hol4")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1701923124]
+
+[node name="Label" type="Label" parent="CanvasLayer" unique_id=1430390519]
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 50.0
+offset_bottom = 33.0
+text = "Score: 0"
