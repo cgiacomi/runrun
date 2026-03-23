@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://dxa2kggl2yjjl"]
+
+[ext_resource type="Script" uid="uid://xjs24de0ufxu" path="res://colorect_2d.gd" id="1_sl1jc"]
+
+[node name="Obstacle" type="ColorRect" unique_id=1181987426]
+custom_minimum_size = Vector2(50, 100)
+color = Color(1, 0, 0, 1)
+script = ExtResource("1_sl1jc")

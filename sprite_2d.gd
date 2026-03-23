@@ -1,5 +1,7 @@
 extends Sprite2D
 
+signal player_died
+
 var velocity = Vector2.ZERO
 var gravity = 800
 var is_on_ground = false
@@ -12,7 +14,7 @@ func _ready() -> void:
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	# Check if on ground
-	is_on_ground = position.y >= 430  # Ground is at y=500, sprite is ~70 pixels tall
+	is_on_ground = position.y >= 430
 	
 	# Gravity
 	velocity.y += gravity * delta
@@ -37,14 +39,18 @@ func _process(delta: float) -> void:
 	# Check collision with all spawned obstacles
 	var parent = get_parent()
 	for child in parent.get_children():
-		if child is ColorRect and child.name.contains("ColorRect"):
+		# Skip the ground
+		if child.name == "Ground":
+			continue
+		
+		if child is ColorRect:
 			var obstacle_rect = Rect2(child.position, child.size)
 			var player_rect = Rect2(position.x - 16, position.y - 16, 32, 32)
 		
 			if player_rect.intersects(obstacle_rect):
 				print("GAME OVER!")
-				get_node("../GameManager").game_over()
-		
-		
+				player_died.emit()
+				return  # Exit early so we don't check more obstacles
+				
 	# Apply velocity
 	position += velocity * delta

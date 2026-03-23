@@ -1,5 +1,7 @@
 extends Node
 
+signal game_ended
+
 var spawn_timer = 0
 var spawn_interval = 1.5  # Spawn obstacle every 1.5 seconds
 var score = 0
@@ -10,6 +12,11 @@ var game_state = "menu"  # States: "menu", "playing", "game_over"
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	score_label = get_node("../CanvasLayer/Label")
+	
+	# Listen for the player_died signal
+	var player = get_node("../Sprite2D")
+	player.player_died.connect(game_over)
+	
 	update_ui()
 
 func _process(delta: float) -> void:
@@ -41,18 +48,12 @@ func update_ui():
 
 func game_over():
 	game_state = "game_over"
+	game_ended.emit()  # Broadcast that game ended
 	update_ui()
 	
 func spawn_obstacle():
-	# Create a new ColorRect
-	var obstacle = ColorRect.new()
-	obstacle.size = Vector2(50, 100)
-	obstacle.position = Vector2(1200, 400)  # Start off-screen right
-	obstacle.color = Color.RED
+	var obstacle_scene = load("res://obstacle.tscn")
+	var new_obstacle = obstacle_scene.instantiate()
+	new_obstacle.position = Vector2(1200, 400)
 	
-	# Load and attach the obstacle script
-	var script = load("res://colorect_2d.gd")
-	obstacle.set_script(script)
-	
-	get_parent().add_child(obstacle)
-	
+	get_parent().add_child(new_obstacle)
